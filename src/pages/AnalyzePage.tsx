@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, ArrowLeft, Satellite, Loader2, AlertTriangle, CheckCircle, ImagePlus } from 'lucide-react';
+import { Upload, ArrowLeft, Satellite, Loader2, AlertTriangle, CheckCircle, ImagePlus, Camera, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
