@@ -235,6 +235,34 @@ const AnalyzePage = () => {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <canvas ref={canvasRef} className="hidden" />
 
+        {/* Camera Modal */}
+        <AnimatePresence>
+          {cameraActive && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] bg-background/95 flex flex-col items-center justify-center p-4"
+            >
+              <div className="w-full max-w-2xl">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                    <Camera className="w-5 h-5 text-primary" />
+                    Capture {cameraTarget === 'before' ? 'Before' : 'After'} Image
+                  </h3>
+                  <Button variant="ghost" size="icon" onClick={stopCamera}>
+                    <X className="w-5 h-5" />
+                  </Button>
+                </div>
+                <video ref={videoRef} autoPlay playsInline muted className="w-full rounded-xl aspect-video object-cover bg-muted" />
+                <Button onClick={capturePhoto} className="w-full mt-4" size="lg">
+                  <Camera className="w-5 h-5" /> Take Photo
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Upload Section */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
