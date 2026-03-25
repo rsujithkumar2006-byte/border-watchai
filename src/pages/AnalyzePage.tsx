@@ -193,20 +193,30 @@ const AnalyzePage = () => {
     toast.success('Analysis complete!');
   }, [beforeImg, afterImg]);
 
-  const ImageUploadBox = ({ label, image, onUpload }: { label: string; image: string | null; onUpload: (e: React.ChangeEvent<HTMLInputElement>) => void }) => (
+  const ImageUploadBox = ({ label, image, onUpload, target }: { label: string; image: string | null; onUpload: (e: React.ChangeEvent<HTMLInputElement>) => void; target: 'before' | 'after' }) => (
     <div className="flex-1">
       <label className="text-sm font-medium text-muted-foreground mb-2 block">{label}</label>
-      <label className="glass rounded-xl aspect-video flex items-center justify-center cursor-pointer hover:border-primary/50 transition-all overflow-hidden relative">
+      <div className="glass rounded-xl aspect-video flex items-center justify-center overflow-hidden relative">
         {image ? (
           <img src={image} alt={label} className="w-full h-full object-cover" />
         ) : (
           <div className="text-center p-4">
             <ImagePlus className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
-            <p className="text-sm text-muted-foreground">Click to upload</p>
+            <p className="text-sm text-muted-foreground">Upload or capture</p>
           </div>
         )}
-        <input type="file" accept="image/*" className="hidden" onChange={onUpload} />
-      </label>
+      </div>
+      <div className="flex gap-2 mt-2">
+        <label className="flex-1">
+          <Button variant="outline" size="sm" className="w-full" asChild>
+            <span><ImagePlus className="w-4 h-4" /> Upload</span>
+          </Button>
+          <input type="file" accept="image/*" className="hidden" onChange={onUpload} />
+        </label>
+        <Button variant="outline" size="sm" className="flex-1" onClick={() => startCamera(target)}>
+          <Camera className="w-4 h-4" /> Capture
+        </Button>
+      </div>
     </div>
   );
 
