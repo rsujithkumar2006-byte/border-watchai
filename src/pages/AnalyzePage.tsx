@@ -23,6 +23,46 @@ const AnalyzePage = () => {
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [cameraActive, setCameraActive] = useState(false);
+  const [cameraTarget, setCameraTarget] = useState<'before' | 'after' | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+
+  const startCamera = (target: 'before' | 'after') => {
+    setCameraTarget(target);
+    setCameraActive(true);
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+      .then((stream) => {
+        streamRef.current = stream;
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+        }
+      })
+      .catch(() => toast.error('Camera access denied'));
+  };
+
+  const capturePhoto = () => {
+    if (!videoRef.current || !cameraTarget) return;
+    const video = videoRef.current;
+    const captureCanvas = document.createElement('canvas');
+    captureCanvas.width = video.videoWidth;
+    captureCanvas.height = video.videoHeight;
+    const ctx = captureCanvas.getContext('2d')!;
+    ctx.drawImage(video, 0, 0);
+    const dataUrl = captureCanvas.toDataURL('image/jpeg');
+    if (cameraTarget === 'before') setBeforeImg(dataUrl);
+    else setAfterImg(dataUrl);
+    stopCamera();
+    toast.success('Photo captured!');
+  };
+
+  const stopCamera = () => {
+    streamRef.current?.getTracks().forEach(t => t.stop());
+    streamRef.current = null;
+    setCameraActive(false);
+    setCameraTarget(null);
+  };
 
   const handleImageUpload = (setter: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
