@@ -241,8 +241,8 @@ const AnalyzePage = () => {
             <Upload className="w-5 h-5 text-primary" /> Upload Satellite Images
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            <ImageUploadBox label="Before Image (T1)" image={beforeImg} onUpload={handleImageUpload(setBeforeImg)} />
-            <ImageUploadBox label="After Image (T2)" image={afterImg} onUpload={handleImageUpload(setAfterImg)} />
+            <ImageUploadBox label="Before Image (T1)" image={beforeImg} onUpload={handleImageUpload(setBeforeImg)} target="before" />
+            <ImageUploadBox label="After Image (T2)" image={afterImg} onUpload={handleImageUpload(setAfterImg)} target="after" />
           </div>
           <Button onClick={simulateChangeDetection} disabled={analyzing || !beforeImg || !afterImg} className="w-full">
             {analyzing ? (
