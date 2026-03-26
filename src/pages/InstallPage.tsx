@@ -69,7 +69,7 @@ const InstallPage = () => {
 
           {isInstalled ? (
             <div className="glass rounded-xl p-6 space-y-3">
-              <CheckCircle className="w-12 h-12 text-green-400 mx-auto" />
+              <CheckCircle className="w-12 h-12 text-primary mx-auto" />
               <p className="text-foreground font-semibold">Already Installed!</p>
               <p className="text-sm text-muted-foreground">SENTINEL is on your home screen. Open it from there for the best experience.</p>
             </div>

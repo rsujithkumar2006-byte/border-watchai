@@ -10,6 +10,7 @@ import HistoryPage from "./pages/HistoryPage";
 import ChatbotPage from "./pages/ChatbotPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import NotFound from "./pages/NotFound";
+import InstallPage from "./pages/InstallPage";
 
 const queryClient = new QueryClient();
 
