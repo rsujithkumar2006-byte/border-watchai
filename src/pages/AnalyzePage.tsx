@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, ArrowLeft, Satellite, Loader2, AlertTriangle, CheckCircle, ImagePlus, Camera, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import FloatingChatbot from '@/components/FloatingChatbot';
 
 interface AnalysisResult {
   changePercent: number;
