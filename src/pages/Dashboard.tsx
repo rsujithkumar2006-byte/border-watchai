@@ -1,23 +1,29 @@
+import { useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Satellite, Upload, History, MessageSquare, CreditCard, LogOut, Shield, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Satellite, Upload, History, CreditCard, LogOut, Shield, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-const stats = [
-  { label: 'Analyses Done', value: '24', icon: Activity, color: 'text-primary' },
-  { label: 'Threats Detected', value: '3', icon: AlertTriangle, color: 'text-warning' },
-  { label: 'Safe Zones', value: '21', icon: CheckCircle, color: 'text-success' },
-];
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  const stats = useMemo(() => {
+    const history = JSON.parse(localStorage.getItem('sentinel_history') || '[]');
+    const total = history.length;
+    const threats = history.filter((h: any) => h.isThreat).length;
+    const safe = total - threats;
+    return [
+      { label: 'Analyses Done', value: String(total), icon: Activity, color: 'text-primary' },
+      { label: 'Threats Detected', value: String(threats), icon: AlertTriangle, color: 'text-warning' },
+      { label: 'Safe Zones', value: String(safe), icon: CheckCircle, color: 'text-success' },
+    ];
+  }, []);
+
   const navItems = [
     { label: 'New Analysis', icon: Upload, path: '/analyze', desc: 'Upload satellite images for change detection' },
     { label: 'History', icon: History, path: '/history', desc: 'View past analysis results' },
-    { label: 'AI Chatbot', icon: MessageSquare, path: '/chatbot', desc: 'Ask about results in Tamil-English' },
     { label: 'Subscription', icon: CreditCard, path: '/subscription', desc: 'Manage your plan & payments' },
   ];
 

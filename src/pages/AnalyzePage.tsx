@@ -346,6 +346,7 @@ const AnalyzePage = () => {
           )}
         </AnimatePresence>
       </main>
+      <FloatingChatbot />
     </div>
   );
 };
