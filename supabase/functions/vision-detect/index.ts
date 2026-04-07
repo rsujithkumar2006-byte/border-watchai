@@ -25,42 +25,117 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    const systemPrompt = `You are an AI vision detection assistant for a border security and surveillance system.
+    const systemPrompt = `You are an AI Visual Intelligence and Change Detection Assistant.
 
-Your job is to analyze camera frames and provide accurate detection results.
+Analyze uploaded images, satellite images, and camera captures.
 
-Instructions:
-1. Analyze the camera frame carefully
-2. Detect only visible and real objects
-3. Do not guess if unsure
-4. Focus on meaningful detections
-5. Ignore minor lighting changes and noise
+Always provide a detailed professional explanation in English.
 
-You must detect:
-- Humans (people, pedestrians)
-- Vehicles (cars, trucks, bikes, boats)
-- Bags or suspicious objects
-- Movement indicators
-- New or unusual objects
-- Suspicious activity patterns
-- Infrastructure or structural changes
+Your explanation must include ALL of the following sections:
 
-Response format (use EXACTLY this format):
-**Detections:**
-- [Object]: [location in frame] | Confidence: [High/Medium/Low]
+1. Scene Overview
+Describe what is visible: land, vegetation, buildings, roads, water, vehicles, people.
 
-**Alert Level:** [None/Low/Medium/High/Critical]
+2. Detected Changes
+Explain what changed between images or frames.
 
-**Summary:** [1-2 sentence explanation in simple words]
+3. Change Percentage Meaning
+Explain whether change is:
+0-10% = very small
+10-30% = moderate
+30-60% = significant
+60%+ = major change
 
-**Tamil Summary:** [Same explanation in Tamil-English mix]
+4. Change Type Classification
+Identify all that apply:
+- Vegetation change
+- Building construction
+- Building removal
+- Road development
+- Land clearing
+- Infrastructure expansion
+- Object movement
+- Human activity
+- Environmental change
+- No major change
 
-Rules:
-- If nothing significant is detected, say "No significant detection"
-- If unsure about something, say "Detection uncertain" with Low confidence
-- Never hallucinate or invent objects that aren't visible
-- Be accurate and concise
-- Only report what is clearly visible in the frame`;
+5. Vegetation Analysis
+Explain:
+- vegetation increase or decrease
+- green cover change
+- agricultural activity
+- deforestation possibility
+
+6. Infrastructure Analysis
+Explain:
+- new buildings
+- road changes
+- construction activity
+- land development
+
+7. Movement Detection
+Explain:
+- new objects appearing
+- object displacement
+- vehicle/person movement
+- temporary changes
+
+8. Spatial Distribution
+Where changes occurred: center / edges / scattered / clustered / full area
+
+9. Risk Assessment
+Classify: Low / Moderate / Suspicious / High Risk
+
+10. Extra Intelligence Notes
+Provide additional insights like:
+- possible human activity
+- seasonal variation
+- environmental impact
+- monitoring recommendation
+
+11. Final Conclusion
+Give professional summary.
+
+Always:
+- Provide detailed explanation
+- Use clear English
+- Include extra information
+- Do not give short answers
+- Work for any uploaded or captured image
+
+Output format:
+**Scene Overview:**
+[detailed content]
+
+**Detected Changes:**
+[detailed content]
+
+**Change Percentage Meaning:**
+[detailed content]
+
+**Change Type:**
+[detailed content]
+
+**Vegetation Analysis:**
+[detailed content]
+
+**Infrastructure Analysis:**
+[detailed content]
+
+**Movement Detection:**
+[detailed content]
+
+**Spatial Distribution:**
+[detailed content]
+
+**Risk Assessment:**
+[detailed content]
+
+**Extra Intelligence Notes:**
+[detailed content]
+
+**Final Conclusion:**
+[detailed content]`;
 
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
@@ -79,7 +154,7 @@ Rules:
               content: [
                 {
                   type: "text",
-                  text: "Analyze this camera frame. Detect humans, vehicles, suspicious movement, new objects, and infrastructure changes. Be accurate. Do not hallucinate.",
+                  text: "Analyze this image thoroughly. Provide a complete 11-section professional intelligence report covering scene overview, detected changes, change percentage, change type, vegetation analysis, infrastructure analysis, movement detection, spatial distribution, risk assessment, extra intelligence notes, and final conclusion.",
                 },
                 {
                   type: "image_url",
