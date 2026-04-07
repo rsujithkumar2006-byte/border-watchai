@@ -64,12 +64,18 @@ const LiveDetectionPage = () => {
   const captureFrame = useCallback((): string | null => {
     if (!videoRef.current || !canvasRef.current) return null;
     const video = videoRef.current;
+    if (video.videoWidth === 0 || video.videoHeight === 0) return null;
     const canvas = canvasRef.current;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    // Resize to max 640px wide to keep payload small
+    const scale = Math.min(1, 640 / video.videoWidth);
+    canvas.width = Math.round(video.videoWidth * scale);
+    canvas.height = Math.round(video.videoHeight * scale);
     const ctx = canvas.getContext('2d')!;
-    ctx.drawImage(video, 0, 0);
-    return canvas.toDataURL('image/jpeg', 0.7);
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.5);
+    // Validate it's not empty
+    if (!dataUrl || dataUrl === 'data:,' || dataUrl.length < 100) return null;
+    return dataUrl;
   }, []);
 
   const analyzeFrame = useCallback(async () => {
