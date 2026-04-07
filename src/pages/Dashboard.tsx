@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Satellite, Upload, History, CreditCard, LogOut, Shield, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Satellite, Upload, History, CreditCard, LogOut, Shield, Activity, AlertTriangle, CheckCircle, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Dashboard = () => {
@@ -23,6 +23,7 @@ const Dashboard = () => {
 
   const navItems = [
     { label: 'New Analysis', icon: Upload, path: '/analyze', desc: 'Upload satellite images for change detection' },
+    { label: 'Live Detection', icon: Eye, path: '/live-detect', desc: 'Real-time AI camera detection' },
     { label: 'History', icon: History, path: '/history', desc: 'View past analysis results' },
     { label: 'Subscription', icon: CreditCard, path: '/subscription', desc: 'Manage your plan & payments' },
   ];

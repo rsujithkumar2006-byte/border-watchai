@@ -11,6 +11,7 @@ import ChatbotPage from "./pages/ChatbotPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import NotFound from "./pages/NotFound";
 import InstallPage from "./pages/InstallPage";
+import LiveDetectionPage from "./pages/LiveDetectionPage";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
             
             <Route path="/subscription" element={<ProtectedRoute><SubscriptionPage /></ProtectedRoute>} />
+            <Route path="/live-detect" element={<ProtectedRoute><LiveDetectionPage /></ProtectedRoute>} />
             <Route path="/install" element={<InstallPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
