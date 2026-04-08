@@ -68,7 +68,7 @@ Overall, the change is moderate and may require monitoring for further activity.
               content: [
                 {
                   type: "text",
-                  text: "Analyze this image thoroughly. Provide a complete 11-section professional intelligence report covering scene overview, detected changes, change percentage, change type, vegetation analysis, infrastructure analysis, movement detection, spatial distribution, risk assessment, extra intelligence notes, and final conclusion.",
+                  text: "Analyze this image. Provide exactly 5 lines: scene overview, what changed, change type, possible cause, and final interpretation with risk level.",
                 },
                 {
                   type: "image_url",
