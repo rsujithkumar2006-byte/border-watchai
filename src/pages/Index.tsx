@@ -56,7 +56,7 @@ const Index = () => {
             <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Dashboard</a>
             <a href="#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</a>
-            <Button size="sm" onClick={() => navigate('/')} className="glow-purple">
+            <Button size="sm" onClick={() => navigate('/login')} className="glow-purple">
               Login
             </Button>
           </div>
@@ -72,7 +72,7 @@ const Index = () => {
             <a href="#features" className="block text-sm text-muted-foreground hover:text-foreground">Features</a>
             <a href="#dashboard" className="block text-sm text-muted-foreground hover:text-foreground">Dashboard</a>
             <a href="#contact" className="block text-sm text-muted-foreground hover:text-foreground">Contact</a>
-            <Button size="sm" className="w-full" onClick={() => navigate('/')}>Login</Button>
+            <Button size="sm" className="w-full" onClick={() => navigate('/login')}>Login</Button>
           </motion.div>
         )}
       </nav>
