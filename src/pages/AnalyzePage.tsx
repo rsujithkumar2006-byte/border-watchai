@@ -338,7 +338,7 @@ const AnalyzePage = () => {
                   <p className="text-foreground">{result.explanation}</p>
                 </div>
                 <div className="border-t border-border pt-4">
-                  <h4 className="text-sm font-medium text-primary mb-1">Tamil-English Explanation (தமிழ்-English)</h4>
+                  <h4 className="text-sm font-medium text-primary mb-1">Detailed Explanation</h4>
                   <p className="text-foreground">{result.tamilExplanation}</p>
                 </div>
               </div>
