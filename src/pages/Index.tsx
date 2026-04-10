@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Satellite, Upload, Camera, Radio, Leaf, Building2, Move, ShieldAlert,
   Eye, BarChart3, FileText, Zap, ArrowRight, Menu, X, ChevronRight,
-  Brain, Cpu, ScanLine, AlertTriangle
+  Brain, Cpu, ScanLine, AlertTriangle, ChevronDown
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -16,9 +16,19 @@ const fadeUp = {
   }),
 };
 
+const productDetails: Record<string, string> = {
+  'Camera Detection':
+    'The system uses your device camera to capture live video frames and applies AI-based detection in real time. The model analyzes movement, object appearance, and environmental changes as they happen. This method is ideal for quick monitoring, temporary surveillance, and instant visual detection without the need for pre-recorded imagery.',
+  'Upload Detection':
+    'Users can upload before-and-after images or satellite imagery for comprehensive analysis. The AI compares both images and generates a detailed change detection map highlighting differences. This approach helps identify vegetation change, infrastructure development, land clearing, and object movement with high precision.',
+  'Real-time Monitoring':
+    'The system continuously monitors incoming image streams or satellite feeds over extended periods. AI automatically detects changes over time, generates alerts, and flags anomalies. This capability is well-suited for border surveillance, environmental monitoring, and long-term infrastructure tracking.',
+};
+
 const Index = () => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
 
   const features = [
     { icon: Leaf, title: 'Vegetation Detection', desc: 'Detect green cover changes using NDVI neural analysis across temporal datasets.' },
@@ -39,6 +49,10 @@ const Index = () => {
     { icon: ShieldAlert, name: 'Risk AI', status: 'Active', accuracy: '96.5%' },
   ];
 
+  const toggleProduct = (title: string) => {
+    setExpandedProduct(prev => (prev === title ? null : title));
+  };
+
   return (
     <div className="min-h-screen grid-bg">
       {/* NAV */}
@@ -54,7 +68,7 @@ const Index = () => {
           <div className="hidden md:flex items-center gap-8">
             <a href="#home" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Home</a>
             <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
-            <a href="#dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Dashboard</a>
+            <a href="#solutions" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Solutions</a>
             <a href="#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</a>
             <Button size="sm" onClick={() => navigate('/login')} className="glow-purple">
               Login
@@ -70,7 +84,7 @@ const Index = () => {
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="md:hidden glass-strong border-t border-border px-6 py-4 space-y-3">
             <a href="#home" className="block text-sm text-muted-foreground hover:text-foreground">Home</a>
             <a href="#features" className="block text-sm text-muted-foreground hover:text-foreground">Features</a>
-            <a href="#dashboard" className="block text-sm text-muted-foreground hover:text-foreground">Dashboard</a>
+            <a href="#solutions" className="block text-sm text-muted-foreground hover:text-foreground">Solutions</a>
             <a href="#contact" className="block text-sm text-muted-foreground hover:text-foreground">Contact</a>
             <Button size="sm" className="w-full" onClick={() => navigate('/login')}>Login</Button>
           </motion.div>
@@ -117,7 +131,6 @@ const Index = () => {
                 <span className="text-xs font-mono text-accent">98.7% Accuracy</span>
               </div>
             </div>
-            {/* Floating orbs */}
             <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-primary/10 blur-3xl" />
             <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-accent/10 blur-3xl" />
           </motion.div>
@@ -142,52 +155,6 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* DASHBOARD PREVIEW */}
-      <section id="dashboard" className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-3">Change Detection Map</h2>
-            <p className="text-muted-foreground">Visual comparison of temporal satellite data with AI-generated change maps.</p>
-          </motion.div>
-
-          {/* Before / After / Change Map */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            {['Before (T1)', 'After (T2)', 'Change Map'].map((label, i) => (
-              <motion.div key={label} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i + 1}
-                className="glass rounded-2xl p-4">
-                <p className="text-sm text-muted-foreground mb-3">{label}</p>
-                <div className="h-44 rounded-xl bg-secondary/60 border border-border/40 flex items-center justify-center">
-                  <ScanLine className="w-8 h-8 text-muted-foreground/40" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Status cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={4}
-              className="glass rounded-2xl p-6">
-              <p className="text-sm text-muted-foreground mb-1">Status</p>
-              <p className="text-2xl font-bold text-destructive flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5" /> SUSPICIOUS
-              </p>
-            </motion.div>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={5}
-              className="glass rounded-2xl p-6">
-              <p className="text-sm text-muted-foreground mb-1">Change Detected</p>
-              <p className="text-2xl font-bold text-accent flex items-center gap-2">
-                <BarChart3 className="w-5 h-5" /> 24%
-              </p>
-            </motion.div>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={6}
-              className="glass rounded-2xl p-6">
-              <p className="text-sm text-muted-foreground mb-1">Change Type</p>
-              <p className="text-xl font-semibold text-foreground">Vegetation Change</p>
-            </motion.div>
           </div>
         </div>
       </section>
@@ -234,8 +201,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* PRODUCTS */}
-      <section className="py-20 px-6">
+      {/* PRODUCTS / SOLUTIONS */}
+      <section id="solutions" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-3">Detection Solutions</h2>
@@ -243,24 +210,44 @@ const Index = () => {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {products.map((p, i) => (
-              <motion.div key={p.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i + 1}
-                className="glass rounded-2xl p-6 hover-lift group cursor-pointer relative overflow-hidden">
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${p.color}`} />
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${p.color} flex items-center justify-center mb-5`}>
-                  <p.icon className="w-7 h-7 text-foreground" />
+              <motion.div key={p.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i + 1}>
+                <div className="glass rounded-2xl p-6 hover-lift group cursor-pointer relative overflow-hidden">
+                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${p.color}`} />
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${p.color} flex items-center justify-center mb-5`}>
+                    <p.icon className="w-7 h-7 text-foreground" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{p.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.desc}</p>
+                  <button
+                    onClick={() => toggleProduct(p.title)}
+                    className="text-sm text-primary flex items-center gap-1 group-hover:gap-2 transition-all"
+                  >
+                    {expandedProduct === p.title ? 'Show Less' : 'Learn More'}
+                    <ChevronDown className={`w-4 h-4 transition-transform ${expandedProduct === p.title ? 'rotate-180' : ''}`} />
+                  </button>
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{p.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.desc}</p>
-                <button className="text-sm text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Learn More <ChevronRight className="w-4 h-4" />
-                </button>
+                <AnimatePresence>
+                  {expandedProduct === p.title && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="glass rounded-2xl p-5 mt-3 border border-primary/20">
+                        <p className="text-sm text-muted-foreground leading-relaxed">{productDetails[p.title]}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* AI MODULES (Team Style) */}
+      {/* AI MODULES */}
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="text-center mb-12">
@@ -286,7 +273,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* FOOTER / CONTACT */}
+      {/* FOOTER */}
       <footer id="contact" className="py-12 px-6 border-t border-border">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">

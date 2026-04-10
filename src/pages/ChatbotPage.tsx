@@ -12,17 +12,17 @@ interface Message {
 }
 
 const botResponses: Record<string, string> = {
-  'enna change': 'Satellite image la recent changes detect aagirukku. Mainly building construction and road development area la changes theriyudhu. Detailed analysis ku "New Analysis" section use pannunga!',
-  'change': 'Image comparison la pudhu structures or modifications detect aagirukku. Change percentage romba high na, suspicious ah irukkalam. Low percentage na normal development dhaan.',
-  'intrusion': 'Border area la unauthorized construction or vehicle movement irundha, adhu intrusion ah consider pannalam. High change percentage (>15%) with building/vehicle type changes na alert pannanum.',
-  'is this intrusion': 'Intrusion nu confirm panna, change percentage, location, and type of change ellam check pannanum. 15% ku mela change irundha suspicious ah irukkalam. Oru analysis run pannunga, result paathu solren!',
-  'safe': 'Change percentage 15% ku keezha irundha, mostly safe dhaan. Normal development, seasonal vegetation changes elaam safe category la varum. But border area na extra careful ah irukkanum.',
-  'safe ah illa': 'Adhu change percentage and type of change poruththu maarum. Building construction border area la irundha — suspicious. Urban area la irundha — normal. Analyze pannunga, result la clear ah kaattum!',
-  'hello': 'Vanakkam! 👋 Naan SENTINEL AI Assistant. Satellite image change detection pathhri enna doubt irundhalum kekuinga. Tamil-la or English-la answer pannuven!',
-  'hi': 'Hello! 🛰️ Welcome to SENTINEL. Enna help venum? Image analysis, change detection, intrusion checking — ellathukum help pannuven!',
-  'help': 'Naan ivanga help panna mudiyum:\n\n🔍 "Enna change aachu?" - Change details\n🚨 "Is this intrusion?" - Threat assessment\n✅ "Safe ah?" - Safety check\n📊 "How to analyze?" - Analysis guide\n\nTamil or English la kekuinga!',
-  'how to analyze': 'Simple dhaan! 1) "New Analysis" page ku ponga, 2) Before image upload pannunga, 3) After image upload pannunga, 4) "Detect Changes" button click pannunga. CNN model compare pannidhu change map create pannum!',
-  'thank': 'Welcome! 😊 Vera enna doubt irundhalum kekuinga. SENTINEL always ready to help!',
+  'what changed': 'Recent satellite imagery shows detectable changes in the monitored area. Primarily, building construction and road development have been identified. For a detailed breakdown, please use the "New Analysis" section.',
+  'change': 'Image comparison has revealed new structures or surface modifications. A high change percentage may indicate suspicious activity, while a low percentage typically reflects normal development.',
+  'intrusion': 'Unauthorized construction or vehicle movement in a border area may be classified as intrusion. If the change percentage exceeds 15% and involves building or vehicle-type changes, an alert should be raised.',
+  'is this intrusion': 'To confirm an intrusion, you should review the change percentage, location, and type of change. A change above 15% is potentially suspicious. Please run an analysis for a definitive assessment.',
+  'safe': 'If the change percentage is below 15%, it is generally considered safe — typically reflecting normal development or seasonal vegetation shifts. However, border areas require additional caution.',
+  'is it safe': 'Safety depends on the change percentage and type. Construction in a border zone is suspicious, while the same in an urban area is normal. Run an analysis for a clear determination.',
+  'hello': 'Hello! 👋 I am the SENTINEL AI Assistant. Feel free to ask any questions about satellite image change detection. I am here to help!',
+  'hi': 'Hello! 🛰️ Welcome to SENTINEL. How can I assist you? I can help with image analysis, change detection, and intrusion assessment.',
+  'help': 'I can help with the following:\n\n🔍 "What changed?" — Change details\n🚨 "Is this intrusion?" — Threat assessment\n✅ "Is it safe?" — Safety check\n📊 "How to analyze?" — Analysis guide\n\nFeel free to ask!',
+  'how to analyze': 'It is straightforward: 1) Navigate to the "New Analysis" page, 2) Upload the before image, 3) Upload the after image, 4) Click "Detect Changes." The CNN model will compare both images and generate a change map.',
+  'thank': 'You are welcome! 😊 If you have any further questions, do not hesitate to ask. SENTINEL is always ready to assist!',
 };
 
 const getResponse = (input: string): string => {
@@ -30,13 +30,13 @@ const getResponse = (input: string): string => {
   for (const [key, response] of Object.entries(botResponses)) {
     if (lower.includes(key)) return response;
   }
-  return 'Naan unoda question purinjukitten, but exact answer dhara mudiyala. Try pannunga: "Enna change?", "Is this safe?", "How to analyze?" nu kekuinga. Naan best ah help pannuven! 🛰️';
+  return 'I understand your question, but I am unable to provide an exact answer at this time. Please try asking: "What changed?", "Is this safe?", or "How to analyze?" for best results. 🛰️';
 };
 
 const ChatbotPage = () => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', role: 'bot', text: 'Vanakkam! 🛰️ Naan SENTINEL AI Assistant. Satellite image change detection pathhri enna doubt irundhalum kekuinga!\n\nTry: "Enna change aachu?", "Is this safe?", "Help"' },
+    { id: '1', role: 'bot', text: 'Hello! 🛰️ I am the SENTINEL AI Assistant. Ask me anything about satellite image change detection.\n\nTry: "What changed?", "Is this safe?", "Help"' },
   ]);
   const [input, setInput] = useState('');
   const endRef = useRef<HTMLDivElement>(null);
@@ -65,7 +65,7 @@ const ChatbotPage = () => {
             <ArrowLeft className="w-4 h-4" />
           </Button>
           <MessageSquare className="w-5 h-5 text-primary" />
-          <span className="font-bold text-foreground">AI Assistant (Tamil-English)</span>
+          <span className="font-bold text-foreground">AI Assistant</span>
         </div>
       </header>
 
@@ -106,7 +106,7 @@ const ChatbotPage = () => {
           <Input
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Ask in Tamil or English... (e.g., 'Enna change aachu?')"
+            placeholder="Ask a question... (e.g., 'What changed?')"
             className="bg-background/50"
           />
           <Button type="submit" size="icon"><Send className="w-4 h-4" /></Button>
